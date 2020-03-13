@@ -1,28 +1,28 @@
 <template>
-  <div class="customer-new">
+  <div class="user-new">
     <form @submit.prevent="add">
       <table class="table">
         <tr>
           <th>Name</th>
           <td>
-            <input type="text" class="form-control" v-model="customer.name" placeholder="Customer Name">
+            <input type="text" class="form-control" v-model="user.name" placeholder="User Name">
           </td>
         </tr>
           <tr>
             <th>Email</th>
             <td>
-              <input type="email" class="form-control" v-model="customer.email" placeholder="Customer Email">
+              <input type="email" class="form-control" v-model="user.email" placeholder="User Email" autocomplete="off">
             </td>
           </tr>
             <tr>
-              <th>Phone</th>
+              <th>Password</th>
               <td>
-                <input type="text" class="form-control" v-model="customer.phone" placeholder="Customer Phone">
+                <input type="password" class="form-control" v-model="user.password" placeholder="User Password" autocomplete="off" >
               </td>
             </tr>
             <tr>
               <td>
-                <router-link to="/customers" class="btn">Cancel</router-link>
+                <router-link to="/admin/users" class="btn">Cancel</router-link>
               </td>
               <td class="text-right">
                 <input type="submit"  value="Create" class="btn btn-primary">
@@ -45,10 +45,10 @@ import validate from 'validate.js'
     name: 'new',
     data(){
       return {
-        customer:{
+        user:{
           name: '',
           email: '',
-          phone: ''
+          password: ''
         },
         errors: null
       };
@@ -62,16 +62,16 @@ import validate from 'validate.js'
       add(){
         this.errors = null;
         const constrains = this.getConstrains();
-        const errors = validate(this.$data.customer,constrains);
+        const errors = validate(this.$data.user,constrains);
         if(errors){
           this.errors = errors;
           return;
         }
         //Send de customer data to the BE API
-        axios.post('/api/customers/new', this.$data.customer)
+        axios.post('/api/users/new', this.$data.user)
         .then((response)=>{
-          this.$store.dispatch('getCustomers');
-          this.$router.push('/customers');
+          this.$store.dispatch('getUsers');
+          this.$router.push('/admin/users');
         });
 
       },
@@ -88,12 +88,11 @@ import validate from 'validate.js'
               presence: true,
               email: true
             },
-              phone: {
+              password: {
                 presence: true,
-                numericality: true,
                 length: {
-                  minium: 10,
-                  message: 'Must be a least 10 digits long'
+                  minium: 8,
+                  message: 'Must be a least 8 characters long'
                 }
               }
         };

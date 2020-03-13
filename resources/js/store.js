@@ -9,7 +9,8 @@ export default {
         isLoggedIn: !!user,
         loading: false,
         auth_error: null,
-        customers: []
+        customers: [],
+        users: []
 
     },
     getters: {
@@ -27,7 +28,11 @@ export default {
         },
         customers(state) {
             return state.customers;
+        },
+        users(state) {
+            return state.users;
         }
+
 
     },
     mutations: {
@@ -54,6 +59,9 @@ export default {
     },
     updateCustomers(state, payload){
       state.customers= payload;
+    },
+    updateUsers(state, payload){
+      state.users= payload;
     }
 
     },
@@ -62,13 +70,15 @@ export default {
         context.commit("login");
       },
       getCustomers(context){
-        axios.get('/api/customers',{
-          headers:{
-            "Authorization": 'Bearer ${context.state.currentUser.token}'
-          }
-        })
+        axios.get('/api/customers')
         .then((response)=>{
           context.commit('updateCustomers', response.data.customers);
+        })
+      },
+      getUsers(context){
+        axios.get('/api/users')
+        .then((response)=>{
+          context.commit('updateUsers', response.data.users);
         })
       }
     }

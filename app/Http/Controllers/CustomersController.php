@@ -12,7 +12,6 @@ class CustomersController extends Controller
     public function all()
     {
         $customers = Customer::all();
-
         return response()->json([
             "customers" => $customers
         ], 200);
