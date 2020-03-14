@@ -6,17 +6,28 @@
                     <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
                 </div>
             </div>
-            <div class="col-md-7">
-                <div class="product-title">{{ product.name }}</div>
-                <div class="product-desc">{{ product.description }}</div>
-                <hr>
+            <div class="row">
+              <br>
+              <div class="col-md-6 offset-md-3">
+                  <div class="product-title"><strong>{{ product.name }}</strong></div>
+                  <div class="product-desc">{{ product.description }}</div>
+                  <hr>
 
-                <div class="product-price"><label>Price</label>  $ {{ product.price }}</div>
-                <hr>
-                <div class="form-group">
-                  <input type="number" v-model="quantity" class="form-control">
-                </div>
-                <button href="#" v-on:click="addItem(`${product.id}`)" class="btn btn-primary btn-sm form-control">Add product</button>
+                  <div class="product-price"><label>Price</label>  $ {{ product.price }}</div>
+                  <hr>
+                  <div class="form-group">
+                    <label for="" class="form-control label text-center">Quantity</label>
+                    <input type="number" v-model="quantity" class="form-control">
+                  </div>
+                  <div class="btn-toolbar" role="toolbar">
+                   <div class="btn-group mr-2 " role="group">
+                    <button href="#" v-on:click="addItem(`${product.id}`)" class="btn btn-primary btn-sm form-control">Add product</button>
+                  </div>
+                     <div class="btn-group mr-2" role="group">
+                    <router-link to="/cart" class="btn btn-success   btn-sm form-control">Check out</router-link>
+                  </div>
+                  </div>
+              </div>
             </div>
         </div>
     </div>
@@ -59,6 +70,11 @@ import validate from 'validate.js'
                     this.product = response.data.product;
                     this.product.quantity = this.quantity;
                     this.$store.commit("addItem", this.product);
+                    this.$notify({
+                      group: 'foo',
+                      title: 'Notification',
+                      type: 'success',
+                      text: 'Product added'});
                 });
         }
     }

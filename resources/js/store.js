@@ -103,6 +103,9 @@ export default {
       state.subtotal = state.subtotal+ (product.price*product.quantity);
     });
 
+  },
+    deleteCart(state, payload){
+      state.cart = [];
     }
 
     },

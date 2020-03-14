@@ -83,6 +83,12 @@ import validate from 'validate.js'
           .then((response)=>{
             this.$store.dispatch('getProducts');
             this.$router.push('/admin/products');
+            this.$notify({
+                group: 'foo',
+                title: 'Notification',
+                type: 'success',
+                text: 'Updated product'
+            });
           });
 
         },

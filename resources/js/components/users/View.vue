@@ -84,6 +84,12 @@ import validate from 'validate.js'
           .then((response)=>{
             this.$store.dispatch('getUsers');
             this.$router.push('/admin/users');
+            this.$notify({
+                group: 'foo',
+                title: 'Notification',
+                type: 'success',
+                text: 'Updated user'
+            });
           });
 
         },

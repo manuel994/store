@@ -51,6 +51,12 @@ export default {
         .then((response)=>{
           this.$store.dispatch('getProducts');
           this.$router.push('/admin/products');
+          this.$notify({
+              group: 'foo',
+              title: 'Notification',
+              type: 'success',
+              text: 'Product removed'
+          });
         });
         }
     }

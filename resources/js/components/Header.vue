@@ -11,21 +11,15 @@
                         <li>
                             <router-link to="/login" class="nav-link">Login</router-link>
                         </li>
-                        <li>
-                            <router-link to="/cart" class="nav-link">Cart ({{ cart.length }}) </router-link>
-                        </li>
                     </template>
                     <template v-else="v-else">
                         <li>
-                            <router-link to="/admin/users" class="nav-link">Users</router-link>
-                        </li>
-                        <li>
-                            <router-link to="/admin/products" class="nav-link">Products</router-link>
-                        </li>
-                        <li>
-                            <a href="#!" @click.prevent="logout" class="nav-link">Logout</a>
+                            <a href="#!" @click.prevent="logout" class="nav-link">Logout ({{ currentUser.name }})</a>
                         </li>
                     </template>
+                    <li>
+                        <router-link to="/cart" class="nav-link">Cart ({{ cart.length }}) </router-link>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -38,7 +32,7 @@
         methods: {
             logout() {
                 this.$store.commit('logout');
-                this.$router.push('/login');
+                this.$router.push('/');
             }
         },
         data(){
