@@ -1,26 +1,80 @@
 <template>
     <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card card-default">
-                    <div class="card-header">Vue.JS SPA example</div>
-
-                    <div class="card-body">
-                        <h2>{{ welcome }}</h2>
-                      </div>
-                </div>
-            </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <h1>Store</h1>
         </div>
+      </div>
+          <template v-if="!products.length">
+              <tr>
+                  <td colspan="4" class="text-center">No Products Available</td>
+              </tr>
+          </template>
+          <template v-else>
+        <div class="row" >
+          <div class="col-lg-6" v-for="product in products" :key="product.id">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 mb-4">
+                <div class="card h-100">
+                  <a href="#"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
+                  <div class="card-body">
+                    <h4 class="card-title">
+                      <router-link :to="`/admin/products/${product.slug}/details`">{{ product.name }}</router-link>
+                    </h4>
+                    <h5>${{ product.price }}</h5>
+                    <p class="card-text">{{ product.description.substring(0, 50) }}...</p>
+                  </div>
+                  <div class="card-footer">
+                      <button href="#" v-on:click="addItem(`${product.id}`)" class="btn btn-primary btn-sm">Add product</button>
+                      <router-link :to="`/admin/products/${product.slug}/details`" class="btn btn-success btn-sm">Product Details</router-link>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
     </div>
+
 </template>
 
 <script>
-  export default{
-    name: 'home',
-    computed:{
-      welcome(){
-        return this.$store.getters.welcome
-      }
+export default {
+    name: 'list',
+    data() {
+        return {
+            product: {
+                name: '',
+                description: '',
+                price: '',
+                quantity: ''
+            },
+            errors: null
+        }
+    },
+    mounted() {
+        this.$store.dispatch('getProducts');
+    },
+    computed: {
+        products() {
+            return this.$store.getters.products;
+        },
+        cart() {
+            return this.$store.getters.cart;
+        },
+        subtotal() {
+            return this.$store.getters.subtotal;
+        }
+    },
+    methods: {
+        addItem(id) {
+            axios.get(`/api/products/${id}`)
+                .then((response) => {
+                    this.product = response.data.product;
+                    this.product.quantity = 1;
+                    this.$store.commit("addItem", this.product);
+                });
+        }
     }
-  }
+}
 </script>

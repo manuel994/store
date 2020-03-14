@@ -1,0 +1,14 @@
+composer update
+
+npm install
+
+php artisan key:generate
+
+php artisan jwt:secret
+
+//MYSQL
+create database store;
+
+php artisan migrate
+
+npm run watch

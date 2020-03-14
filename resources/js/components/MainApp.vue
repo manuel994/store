@@ -12,9 +12,8 @@
 <script>
 import Header from './Header.vue'
 import Home from './Home.vue'
-import Login from './auth/Login.vue'
   export default{
   name: 'main-app',
-  components: {Header,Home,Login}
+  components: {Header,Home}
   }
 </script>

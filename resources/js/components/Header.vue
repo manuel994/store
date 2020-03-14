@@ -11,26 +11,19 @@
                         <li>
                             <router-link to="/login" class="nav-link">Login</router-link>
                         </li>
+                        <li>
+                            <router-link to="/cart" class="nav-link">Cart ({{ cart.length }}) </router-link>
+                        </li>
                     </template>
                     <template v-else="v-else">
-                        <li>
-                            <router-link to="/customers" class="nav-link">Customers</router-link>
-                        </li>
                         <li>
                             <router-link to="/admin/users" class="nav-link">Users</router-link>
                         </li>
                         <li>
-                            <a href="#!" @click.prevent="logout" class="dropdown-item">Logout</a>
+                            <router-link to="/admin/products" class="nav-link">Products</router-link>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false" aria-haspopup="true">
-                                {{ currentUser.name }}
-                                <span class="caret"></span>
-                            </a>
-
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a href="#!" @click.prevent="logout" class="dropdown-item">Logout</a>
-                            </div>
+                        <li>
+                            <a href="#!" @click.prevent="logout" class="nav-link">Logout</a>
                         </li>
                     </template>
                 </ul>
@@ -47,6 +40,14 @@
                 this.$store.commit('logout');
                 this.$router.push('/login');
             }
+        },
+        data(){
+          return{
+            cart: []
+          }
+        },
+        mounted() {
+          this.cart = this.$store.getters.cart;
         },
         computed: {
             currentUser() {

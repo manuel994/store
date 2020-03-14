@@ -47,7 +47,7 @@ export default{
       login(this.$data.form)
       .then((res)=>{
         this.$store.commit("loginSucess",res);
-        this.$router.push({path: '/'});
+        this.$router.push({path: '/admin/users'});
       })
       .catch((error) =>{
         this.$store.commit("loginFailed",{error});

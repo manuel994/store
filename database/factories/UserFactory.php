@@ -4,6 +4,7 @@
 
 use App\User;
 use App\Customer;
+use App\Products;
 use Faker\Generator as Faker;
 use Illuminate\Support\Str;
 
@@ -33,5 +34,15 @@ $factory->define(Customer::class, function (Faker $faker) {
         'name' => $faker->name,
         'email' => $faker->unique()->safeEmail,
         'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+    ];
+});
+
+$factory->define(Products::class, function (Faker $faker) {
+    return [
+        'name' => $faker->name,
+        'slug' => Str::slug($faker->name),
+        'description' => $faker->text(150),
+        'price' => $faker->randomNumber(2),
+
     ];
 });

@@ -50,3 +50,17 @@ Route::group([
     Route::post('users/edit', 'UsersController@edit');
 
 });
+
+
+Route::group([
+
+], function ($router) {
+
+    Route::get('products', 'ProductsController@all');
+    Route::get('products/{id}', 'ProductsController@get');
+    Route::delete('products/{id}/delete', 'ProductsController@delete');
+    Route::post('products/new', 'ProductsController@new');
+    Route::post('products/edit', 'ProductsController@edit');
+    Route::get('products/{id}/details', 'ProductsController@details');
+
+});

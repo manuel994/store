@@ -10,7 +10,10 @@ export default {
         loading: false,
         auth_error: null,
         customers: [],
-        users: []
+        users: [],
+        products: [],
+        cart: [],
+        subtotal: 0
 
     },
     getters: {
@@ -31,6 +34,15 @@ export default {
         },
         users(state) {
             return state.users;
+        },
+        products(state) {
+            return state.products;
+        },
+        cart(state) {
+            return state.cart;
+        },
+        subtotal(state) {
+            return state.subtotal;
         }
 
 
@@ -62,6 +74,35 @@ export default {
     },
     updateUsers(state, payload){
       state.users= payload;
+    },
+    updateProducts(state, payload){
+      state.products= payload;
+    },
+    addItem(state, payload){
+      var foundIndex = null;
+      foundIndex = state.cart.findIndex((product)=> product.id == payload.id );
+      if (foundIndex !== -1) {
+      state.cart[foundIndex].quantity = payload.quantity + state.cart[foundIndex].quantity;
+    }else{
+      state.cart.push(payload);
+    }
+    state.subtotal = 0;
+    state.cart.forEach(function(product){
+      state.subtotal = state.subtotal+ (product.price*product.quantity);
+    });
+    },
+    deleteItem(state, payload){
+      var foundIndex = null;
+      foundIndex = state.cart.findIndex((product)=> product.id == payload.id );
+      if (foundIndex !== -1) {
+      state.cart[foundIndex].quantity = payload.quantity + state.cart[foundIndex].quantity;
+      state.cart.splice(foundIndex, 1);
+    }
+    state.subtotal = 0;
+    state.cart.forEach(function(product){
+      state.subtotal = state.subtotal+ (product.price*product.quantity);
+    });
+
     }
 
     },
@@ -79,6 +120,12 @@ export default {
         axios.get('/api/users')
         .then((response)=>{
           context.commit('updateUsers', response.data.users);
+        })
+      },
+      getProducts(context){
+        axios.get('/api/products')
+        .then((response)=>{
+          context.commit('updateProducts', response.data.products);
         })
       }
     }
